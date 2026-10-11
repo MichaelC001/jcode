@@ -404,10 +404,10 @@ fn heredoc_delimiters(line: &str) -> Vec<(String, bool, bool)> {
                 index += 2;
                 continue;
             }
-            if byte == end {
-                if let Some(slot) = quotes.last_mut() {
-                    *slot = None;
-                }
+            if byte == end
+                && let Some(slot) = quotes.last_mut()
+            {
+                *slot = None;
             }
             index += 1;
             continue;
