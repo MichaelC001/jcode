@@ -388,7 +388,7 @@ fn heredoc_delimiters(line: &str) -> Vec<(String, bool, bool)> {
 
     while index + 1 < bytes.len() {
         let byte = bytes[index];
-        let quote = *quotes.last().expect("quote stack is never empty");
+        let quote = quotes.last().copied().flatten();
         if quote != Some(b'\'') && byte == b'$' && bytes[index + 1] == b'(' {
             quotes.push(None);
             index += 2;
@@ -405,13 +405,17 @@ fn heredoc_delimiters(line: &str) -> Vec<(String, bool, bool)> {
                 continue;
             }
             if byte == end {
-                *quotes.last_mut().expect("quote stack is never empty") = None;
+                if let Some(slot) = quotes.last_mut() {
+                    *slot = None;
+                }
             }
             index += 1;
             continue;
         }
         if matches!(byte, b'\'' | b'"') {
-            *quotes.last_mut().expect("quote stack is never empty") = Some(byte);
+            if let Some(slot) = quotes.last_mut() {
+                *slot = Some(byte);
+            }
             index += 1;
             continue;
         }
