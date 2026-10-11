@@ -2725,3 +2725,24 @@ fn test_compact_dir_keeps_whole_trailing_components() {
         "…/an-extremely-long-single-…"
     );
 }
+
+#[test]
+fn test_resume_project_scope_is_off_by_default() {
+    assert!(
+        !crate::config::Config::default()
+            .display
+            .resume_project_scope
+    );
+    let mut here = make_session("here", "here", false, SessionStatus::Closed);
+    here.working_dir = Some("/work/project".to_string());
+    let mut other = make_session("other", "other", false, SessionStatus::Closed);
+    other.working_dir = Some("/work/other".to_string());
+
+    let mut picker = SessionPicker::new(vec![here, other]);
+    picker.set_current_dir(Some("/work/project".to_string()));
+    if !crate::config::config().display.resume_project_scope {
+        picker.apply_resume_project_scope_default();
+        assert_eq!(picker.filter_mode, SessionFilterMode::All);
+        assert_eq!(picker.visible_sessions.len(), 2);
+    }
+}

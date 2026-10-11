@@ -374,6 +374,15 @@ impl SessionPicker {
         self.rebuild_items();
     }
 
+    /// Apply the current-project default only when the user opted in with
+    /// `display.resume_project_scope`. Resume is intentionally global by
+    /// default, so this is a no-op unless enabled.
+    pub fn apply_resume_project_scope_default(&mut self) {
+        if crate::config::config().display.resume_project_scope {
+            self.prefer_current_dir_filter();
+        }
+    }
+
     /// Open `/resume` scoped to the current project when it has sessions, so
     /// a crashed terminal finds its own conversation first. `s` still cycles
     /// to every session, and a choice made by the user is never overridden.

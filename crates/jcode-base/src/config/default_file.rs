@@ -239,6 +239,11 @@ prompt_entry_animation = true
 # (default: true). Set false to list only jcode's own sessions.
 # external_sessions = true
 
+# Open /resume filtered to sessions from the current project (same directory,
+# subdirectories, and sibling git worktrees) when that project has sessions
+# (default: false). Resume is global by default. Press `s` to cycle filters.
+# resume_project_scope = false
+
 # Disable specific animation variants by name.
 # Examples: ["donut"] or ["donut", "orbit_rings"]
 # Legacy aliases such as "three_rings" and "gyroscope" are still accepted.

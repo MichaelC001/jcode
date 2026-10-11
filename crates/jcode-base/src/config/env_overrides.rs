@@ -287,6 +287,11 @@ impl Config {
                 self.display.external_sessions = parsed;
             }
         }
+        if let Ok(v) = std::env::var("JCODE_RESUME_PROJECT_SCOPE") {
+            if let Some(parsed) = parse_env_bool(&v) {
+                self.display.resume_project_scope = parsed;
+            }
+        }
         if let Ok(v) = std::env::var("JCODE_PERFORMANCE") {
             let trimmed = v.trim().to_lowercase();
             if matches!(trimmed.as_str(), "auto" | "full" | "reduced" | "minimal") {

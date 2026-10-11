@@ -2558,7 +2558,7 @@ pub fn pick_session() -> Result<Option<PickerResult>> {
             .ok()
             .map(|dir| dir.to_string_lossy().into_owned()),
     );
-    picker.prefer_current_dir_filter();
+    picker.apply_resume_project_scope_default();
     picker.run()
 }
 
