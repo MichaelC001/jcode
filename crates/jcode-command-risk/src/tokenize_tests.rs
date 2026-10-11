@@ -36,11 +36,11 @@ fn tab_stripping_and_escaped_delimiters_are_supported() {
 fn heredoc_declared_inside_command_substitution_is_found() {
     assert_eq!(
         heredoc_delimiters("gh api x -f body=\"$(cat <<'EOF'"),
-        vec![("EOF".to_string(), false)]
+        vec![("EOF".to_string(), false, true)]
     );
     assert_eq!(
         heredoc_delimiters("echo \"$(printf ')' ; cat <<-END"),
-        vec![("END".to_string(), true)]
+        vec![("END".to_string(), true, false)]
     );
     // Single quotes suppress `$(`, so this `<<` is literal text.
     assert!(heredoc_delimiters("echo '$(cat <<EOF'").is_empty());
